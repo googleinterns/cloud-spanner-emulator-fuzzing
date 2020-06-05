@@ -1,0 +1,16 @@
+--- frontend/server/BUILD
++++ frontend/server/BUILD
+@@ -17,1 +17,1 @@
+-package(default_visibility = ["//:__subpackages__"])
++package(default_visibility = ["//visibility:public"])
+
+--- backend/schema/parser/javacc_parser.bzl
++++ backend/schema/parser/javacc_parser.bzl
+@@ -90,0 +91 @@
++            "DIR=$$PWD; PSRC=''; for file in $(SRCS); do PSRC=$$DIR/$$file $$PSRC; done; pushd $(@D); " +
+@@ -91,2 +91,3 @@
+-            "$(location @local_jdk//:bin/java) -cp $(location @maven//:net_java_dev_javacc_javacc) javacc  " +
+-            "-OUTPUT_LANGUAGE=c++ -OUTPUT_DIRECTORY=$(@D) $(SRCS) "
++            "$$DIR/$(location @local_jdk//:bin/java) -cp $$DIR/$(location @maven//:net_java_dev_javacc_javacc) javacc  " +
++            "-OUTPUT_LANGUAGE=c++ $$PSRC; " + 
++            "popd;"
