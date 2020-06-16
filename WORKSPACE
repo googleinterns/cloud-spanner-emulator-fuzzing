@@ -127,7 +127,7 @@ http_archive(
     # - Give visibility to ZetaSQL's base library to reuse some utilities
     # - Allow implicit conversion of grpc::Status to zetasql_base::Status
     # - Patches for flex, m4, and icu to work on MacOS
-    patches = ["@com_google_cloud_spanner_emulator//build/bazel:zetasql.patch"],
+    patches = ["@com_google_cloud_spanner_emulator//build/bazel:zetasql.patch", "//patches:zetasql.patch"],
     sha256 = "3be4b149adeef3b30462e271879d0b9e4a0fd358b83452b47fde427ae9046871",
 )
 
