@@ -28,12 +28,33 @@ using ::google::cloud::StatusOr;
 using ::google::cloud::spanner::DatabaseAdminClient;
 using ::google::cloud::spanner::v0::ConnectionOptions;
 
+#ifdef __OSS_FUZZ__
+#define OVERWRITE 1
+
+bool DoOssFuzzInit() {
+  namespace fs = std::filesystem;
+  fs::path originDir;
+  try {
+    originDir = fs::canonical(fs::read_symlink("/proc/self/exe")).parent_path();
+  } catch (const std::exception& e) {
+    return false;
+  }
+  fs::path tzdataDir = originDir / "data/zoneinfo/";
+  if (setenv("TZDIR", tzdataDir.c_str(), OVERWRITE)) {
+    return false;
+  }
+  return true;
+}
+#endif
+
 const std::string server_address = "localhost:1234";
 
-
-
-
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
+  #ifdef __OSS_FUZZ__
+    static bool Initialized = DoOssFuzzInit();
+    if (!Initialized) { std::abort(); }
+  #endif
+
   Server::Options options;
   options.server_address = server_address;
   std::unique_ptr<Server> server = Server::Create(options);
