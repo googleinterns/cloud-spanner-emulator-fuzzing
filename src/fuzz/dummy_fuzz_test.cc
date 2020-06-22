@@ -119,11 +119,11 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
     google::cloud::spanner::Client client(
         google::cloud::spanner::MakeConnection(database, emulator_connection));
 
-    std::string query = std::string("INSERT INTO Singers (FirstName) VALUES (") + std::string((char*)Data, size) + std::string(")");
+    std::string query = std::string("INSERT INTO Singers (FirstName) VALUES (") + std::string((char*)Data, Size) + std::string(")");
 
     client.ExecuteQuery(
-        google::cloud::spanner::SqlStatement(query);
-    )
+        google::cloud::spanner::SqlStatement(query)
+    );
     // auto rows = client.ExecuteQuery(
     //     google::cloud::spanner::SqlStatement("SELECT 'Hello World'"));
 
