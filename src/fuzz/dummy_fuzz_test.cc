@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
+#include <filesystem>
 
 #include "frontend/server/server.h"
 #include "google/cloud/spanner/client.h"
