@@ -113,7 +113,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
           ) PRIMARY KEY (SingerId, AlbumId),
               INTERLEAVE IN PARENT Singers ON DELETE CASCADE)sdl"})
             .get();
-    if (!db_or) throw std::runtime_error(db.status().message());
+    if (!db_or) throw std::runtime_error(db_or.status().message());
     std::cout << "Created database [" << database << "]\n";
 
     google::cloud::spanner::Client client(
