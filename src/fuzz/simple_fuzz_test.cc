@@ -17,6 +17,7 @@
 #include <stdexcept>
 #include <filesystem>
 
+#include "zetasql/base/logging.h"
 #include "frontend/server/server.h"
 #include "google/cloud/spanner/client.h"
 #include "google/cloud/spanner/create_instance_request_builder.h"
@@ -64,7 +65,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
     return EXIT_FAILURE;
   }
 
-  std::cout << "Server Up, Executing Test Query" << std::endl;
+  LOG(INFO) << "Server Up, Executing Test Query";
 
   try {
     // This is the connection to the emulator.
@@ -89,7 +90,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
     if (!instance_or) {
       throw std::runtime_error(instance_or.status().message());
     }
-    std::cout << "Created instance [" << instance << "]\n";
+    LOG(INFO) << "Created instance [" << instance << "]";
 
     // Then we create a simple database.
     google::cloud::spanner::Database database(instance, "test-db");
@@ -114,7 +115,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
               INTERLEAVE IN PARENT Singers ON DELETE CASCADE)sdl"})
             .get();
     if (!db_or) throw std::runtime_error(db_or.status().message());
-    std::cout << "Created database [" << database << "]\n";
+    LOG(INFO) << "Created database [" << database << "]";
 
     google::cloud::spanner::Client client(
         google::cloud::spanner::MakeConnection(database, emulator_connection));
@@ -127,7 +128,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
 
     return 0;
   } catch (std::exception const& ex) {
-    std::cerr << "Standard exception raised: " << ex.what() << "\n";
+    LOG(ERROR) << "Standard exception raised: " << ex.what();
     return 1;
   }
 
