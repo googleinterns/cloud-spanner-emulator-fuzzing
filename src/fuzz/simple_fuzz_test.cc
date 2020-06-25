@@ -18,7 +18,6 @@
 #include <filesystem>
 
 #include "zetasql/base/logging.h"
-#include "absl/status/status.h"
 #include "frontend/server/server.h"
 #include "google/cloud/spanner/client.h"
 #include "google/cloud/spanner/create_instance_request_builder.h"
