@@ -125,7 +125,7 @@ http_archive(
     strip_prefix = "zetasql-7d983d3632702f200c8340933160c02f1d94e5a7",
     # Patches applied:
     # - Give visibility to ZetaSQL's base library to reuse some utilities
-    patches = ["//build/bazel:zetasql.patch"],
+    patches = ["@com_google_cloud_spanner_emulator//build/bazel:zetasql.patch", "//patches:zetasql.patch"],
     sha256 = "35072a210111eb478d4cbc005496b4df026131127e2bf26a369d269b679a91ff",
 )
 
