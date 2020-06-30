@@ -96,9 +96,9 @@ protobuf_deps()
 
 http_archive(
     name = "com_google_absl",
-    strip_prefix = "abseil-cpp-1de0166368e2ae67347f92099d6dca3ab3a4a496",
-    url = "https://github.com/abseil/abseil-cpp/archive/1de0166368e2ae67347f92099d6dca3ab3a4a496.tar.gz",
-    sha256 = "c632ae484401789cea79ba9c4e625bc121020e81fc90ca3620e3ba69e9b26feb",
+    strip_prefix = "abseil-cpp-df3ea785d8c30a9503321a3d35ee7d35808f190d",
+    url = "https://github.com/abseil/abseil-cpp/archive/df3ea785d8c30a9503321a3d35ee7d35808f190d.tar.gz",
+    sha256 = "f368a8476f4e2e0eccf8a7318b98dafbe30b2600f4e3cf52636e5eb145aba06a",
 )
 
 http_archive(
@@ -121,14 +121,14 @@ grpc_deps()
 
 http_archive(
     name = "com_google_zetasql",
-    url = "https://github.com/google/zetasql/archive/9c52f04ef551b94f52c20f2417bb5aaabb7f9994.zip",
-    strip_prefix = "zetasql-9c52f04ef551b94f52c20f2417bb5aaabb7f9994",
+    url = "https://github.com/google/zetasql/archive/7d983d3632702f200c8340933160c02f1d94e5a7.zip",
+    strip_prefix = "zetasql-7d983d3632702f200c8340933160c02f1d94e5a7",
     # Patches applied:
     # - Give visibility to ZetaSQL's base library to reuse some utilities
     # - Allow implicit conversion of grpc::Status to zetasql_base::Status
     # - Patches for flex, m4, and icu to work on MacOS
     patches = ["@com_google_cloud_spanner_emulator//build/bazel:zetasql.patch", "//patches:zetasql.patch"],
-    sha256 = "3be4b149adeef3b30462e271879d0b9e4a0fd358b83452b47fde427ae9046871",
+    sha256 = "35072a210111eb478d4cbc005496b4df026131127e2bf26a369d269b679a91ff",
 )
 
 load("@com_google_zetasql//bazel:zetasql_deps_step_1.bzl", "zetasql_deps_step_1")

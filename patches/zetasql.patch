@@ -1,38 +1,32 @@
 --- bazel/BUILD
 +++ bazel/BUILD
-@@ -37,6 +37,11 @@
-     binaries = [
-         "m4",
+@@ -44,6 +44,9 @@
      ],
-+    configure_env_vars = {
-+        "CFLAGS":"-fno-sanitize=address",
-+        "CXXFLAGS":"-fno-sanitize=address",
-+        "LDFLAGS": "-stdlib=libc++ -B lld -lc++ --rtlib=compiler-rt --unwindlib=libunwind -fno-sanitize=address",
-+    },
+     configure_env_vars = {
+         "AR": "ar_wrapper",
++        "CFLAGS":"-fno-sanitize=all",
++        "CXXFLAGS":"-fno-sanitize=all",
++        "LDFLAGS": "-stdlib=libc++ -B lld -lc++ --rtlib=compiler-rt --unwindlib=libunwind -fno-sanitize=all",
+     },
      configure_options = [
          "--disable-nls",
-     ],
-@@ -58,6 +63,9 @@
-     configure_env_vars = {
+@@ -68,6 +71,9 @@
          "M4": "$$EXT_BUILD_DEPS$$/m4/bin/m4",
          "CC_FOR_BUILD": "$$CC$$",
-+        "CFLAGS":"-fno-sanitize=address",
-+        "CXXFLAGS":"-fno-sanitize=address",
-+        "LDFLAGS": "-stdlib=libc++ -B lld -lc++ --rtlib=compiler-rt --unwindlib=libunwind -fno-sanitize=address",
+         "AR": "ar_wrapper",
++       "CFLAGS":"-fno-sanitize=all",
++        "CXXFLAGS":"-fno-sanitize=all",
++        "LDFLAGS": "-stdlib=libc++ -B lld -lc++ --rtlib=compiler-rt --unwindlib=libunwind -fno-sanitize=all",
      },
      lib_source = "@bison//:all",
      static_libraries = ["liby.a"],
-@@ -78,7 +86,12 @@
-     # This seems to be necessary (using tools_dep and weird path) because unlike
-     # bison, flex needs to invoke m4 during build (whereas bison needs it only
-     # during `configure`).
--    configure_env_vars = {"M4": "$$EXT_BUILD_DEPS$$/m4/bin/m4"},
-+    configure_env_vars = {
-+       "M4": "$$EXT_BUILD_DEPS$$/m4/bin/m4",
-+        "CFLAGS":"-fno-sanitize=address",
-+        "CXXFLAGS":"-fno-sanitize=address",
-+        "LDFLAGS": "-stdlib=libc++ -B lld -lc++ --rtlib=compiler-rt --unwindlib=libunwind -fno-sanitize=address",
-+       },
+@@ -92,6 +98,9 @@
+     configure_env_vars = {
+         "M4": "$$EXT_BUILD_DEPS$$/m4/bin/m4",
+         "AR": "ar_wrapper",
++       "CFLAGS":"-fno-sanitize=all",
++        "CXXFLAGS":"-fno-sanitize=all",
++        "LDFLAGS": "-stdlib=libc++ -B lld -lc++ --rtlib=compiler-rt --unwindlib=libunwind -fno-sanitize=all",
+     },
      lib_source = "@flex//:all",
-     deps = [":m4"],
- )
+     tools_deps = [":ar_wrapper"],
