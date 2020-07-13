@@ -131,6 +131,15 @@ http_archive(
     sha256 = "35072a210111eb478d4cbc005496b4df026131127e2bf26a369d269b679a91ff",
 )
 
+# Protobuf
+if not native.existing_rule("com_google_protobuf"):
+    http_archive(
+        name = "com_google_protobuf",
+        urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.12.3.tar.gz"],
+        sha256 = "71030a04aedf9f612d2991c1c552317038c3c5a2b578ac4745267a45e7037c29",
+        strip_prefix = "protobuf-3.12.3",
+    )
+
 load("@com_google_zetasql//bazel:zetasql_deps_step_1.bzl", "zetasql_deps_step_1")
 
 zetasql_deps_step_1()
@@ -161,6 +170,41 @@ google_cloud_cpp_spanner_deps()
 load("@com_github_googleapis_google_cloud_cpp_common//bazel:google_cloud_cpp_common_deps.bzl", "google_cloud_cpp_common_deps")
 
 google_cloud_cpp_common_deps()
+
+if not native.existing_rule("bazel_skylib"):
+    http_archive(
+        name = "bazel_skylib",
+        urls = [
+            "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.0.2/bazel-skylib-1.0.2.tar.gz",
+            "https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.2/bazel-skylib-1.0.2.tar.gz",
+        ],
+        sha256 = "97e70364e9249702246c0e9444bccdc4b847bed1eb03c5a3ece4f83dfe6abc44",
+    )
+
+if not native.existing_rule("libprotobuf_mutator"):
+    http_archive(
+        name = "libprotobuf_mutator",
+        build_file = '//:third_party/envoy/libprotobuf_mutator.BUILD',
+        strip_prefix = "libprotobuf-mutator-master",
+        urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
+    )
+
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+bazel_skylib_workspace()
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+protobuf_deps()
+
+if not native.existing_rule("libprotobuf_mutator"):
+    http_archive(
+        name = "libprotobuf_mutator",
+        build_file = '@com_google_zetasql//:third_party/envoy/libprotobuf_mutator.BUILD',
+        strip_prefix = "libprotobuf-mutator-master",
+        urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
+    )
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+rules_proto_dependencies()
+rules_proto_toolchains()
 
 ################################################################################
 # Go Build Support                                                             #

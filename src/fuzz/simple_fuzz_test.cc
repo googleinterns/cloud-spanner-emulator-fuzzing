@@ -15,7 +15,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
-#include <filesystem>
+#include "oss_fuzz.h"
 
 #include "zetasql/base/logging.h"
 #include "frontend/server/server.h"
@@ -30,31 +30,11 @@ using ::google::cloud::StatusOr;
 using ::google::cloud::spanner::DatabaseAdminClient;
 using ::google::cloud::spanner::v0::ConnectionOptions;
 
-#ifdef __OSS_FUZZ__
-#define OVERWRITE 1
-
-bool DoOssFuzzInit() {
-  namespace fs = std::filesystem;
-  fs::path originDir;
-  try {
-    originDir = fs::canonical(fs::read_symlink("/proc/self/exe")).parent_path();
-  } catch (const std::exception& e) {
-    return false;
-  }
-  // Timezone data in OSS-Fuzz is in a non-standard location. This allows asbl to know where it resides
-  fs::path tzdataDir = originDir / "data/zoneinfo/";
-  if (setenv("TZDIR", tzdataDir.c_str(), OVERWRITE)) {
-    return false;
-  }
-  return true;
-}
-#endif
-
 const std::string server_address = "localhost:1234";
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
   #ifdef __OSS_FUZZ__
-    static bool Initialized = DoOssFuzzInit();
+    static bool Initialized = spanner_emulator_fuzzer::DoOssFuzzInit();
     if (!Initialized) { std::abort(); }
   #endif
 
