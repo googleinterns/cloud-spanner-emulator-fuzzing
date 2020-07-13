@@ -2,7 +2,10 @@
 
 cc_binary(
   name = "simple_fuzz_test",
-  srcs = ["simple_fuzz_test.cc"],
+  srcs = [
+    "simple_fuzz_test.cc", 
+    "oss_fuzz.h"
+  ],
   linkopts = [ "$(LIB_FUZZING_ENGINE)" ],
   deps = [
     "@com_google_cloud_spanner_emulator//frontend/server",
@@ -11,3 +14,4 @@ cc_binary(
     "@com_google_zetasql//zetasql/base:logging",
   ]
 )
+
