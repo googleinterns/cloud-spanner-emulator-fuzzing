@@ -15,7 +15,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
-#include "oss_fuzz.h"
+#include "src/fuzz/oss_fuzz.h"
 
 #include "zetasql/base/logging.h"
 #include "frontend/server/server.h"
