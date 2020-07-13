@@ -193,13 +193,12 @@ bazel_skylib_workspace()
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 protobuf_deps()
 
-if not native.existing_rule("libprotobuf_mutator"):
-    http_archive(
-        name = "libprotobuf_mutator",
-        build_file = '@com_google_zetasql//:third_party/envoy/libprotobuf_mutator.BUILD',
-        strip_prefix = "libprotobuf-mutator-master",
-        urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
-    )
+http_archive(
+    name = "libprotobuf_mutator",
+    build_file = '@com_google_zetasql//:third_party/envoy/libprotobuf_mutator.BUILD',
+    strip_prefix = "libprotobuf-mutator-master",
+    urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
+)
 
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
 rules_proto_dependencies()
