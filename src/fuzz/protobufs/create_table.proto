@@ -1,0 +1,60 @@
+//
+// Copyright 2020 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto2";
+
+package spanner_ddl;
+
+// represents if a column's data is scalar/an array and its scalar type
+message ColumnDataInfo {}
+    required bool isArray = 1;
+    enum Scalartypes {
+        BOOL = 0;
+        INT64 = 1;
+        FLOAT64 = 2;
+        STRING = 3;
+        BYTES = 4;
+        DATE = 5;
+        TIMESTAMP = 6;
+    }
+    required Scalartypes = 2;
+    // represents the length for string/byte types
+    required int32 length = 3;
+}
+
+// represents a column of a table
+message Column {
+    required string columnName = 1;
+    
+    required ColumnDataInfo columnInfo = 2;
+    required bool isNull = 3;
+    required bool allowCommitTimestamp = 4;
+
+    // only used for primary keys
+    enum Orientation {
+        ASC = 0;
+        DESC = 1;
+    }
+    required Orientation orientation = 5 [default = ASC];
+}
+
+
+//represents a table
+message CreateTable {
+    required string tableName = 0;
+    repeated Column primaryKeys = 1;
+    repeated Column nonPrimaryKeys = 2;
+}
