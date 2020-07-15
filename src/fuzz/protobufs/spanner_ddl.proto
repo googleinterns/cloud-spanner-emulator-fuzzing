@@ -14,9 +14,11 @@
 // limitations under the License.
 //
 
-import "create_database.proto";
-
 syntax = "proto2";
+
+import "src/fuzz/protobufs/create_table.proto";
+
+
 
 package spanner_ddl;
 
@@ -24,10 +26,10 @@ package spanner_ddl;
 message SpannerDDLStatement {
     oneof DDLStatement {
         // add new statement types here
-        CreateTable createTable = 0;
+        CreateTable createTable = 1;
     }
 }
 
 message SpannerFuzzingStatements {
-    repeated SpannerDDLMessage statements = 1;
+    repeated SpannerDDLStatement statements = 1;
 }

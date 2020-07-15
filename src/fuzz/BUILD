@@ -17,7 +17,7 @@ cc_binary(
 
 cc_library(
   name = "spanner_emulator_ddl_statement_to_string",
-  srcs = ["spanner_emulator_ddl_statement_proto_to_string.cc",],
+  srcs = ["protobufs/utils/spanner_emulator_ddl_statement_proto_to_string.cc",],
   deps = [
     ":spanner_emulator_ddl_statement_cc_proto",
     "@com_google_absl//absl/strings:strings",
@@ -32,7 +32,7 @@ cc_proto_library(
 proto_library(
   name = "spanner_emulator_ddl_statement_proto",
   srcs = [
-    "spanner_ddl.proto",
-    "create_table.proto",
+    "protobufs/spanner_ddl.proto",
+    "protobufs/create_table.proto",
   ]
 )
