@@ -28,14 +28,14 @@ using spanner_ddl::CreateTable;
 using spanner_ddl::Column;
 using spanner_ddl::ColumnDataInfo;
 
-
-// forward declarations
+// proto to string methods
 std::string toString(SpannerDDLStatement statement);
 std::string toString(CreateTable createTable);
 std::string toString(const google::protobuf::RepeatedPtrField<Column> columns);
 std::string toString(Column column);
 std::string toString(ColumnDataInfo columnDataInfo);
-std::string toString(ColumnDataInfo::ScalarType type, int length, ColumnDataInfo::LengthType lengthType);
+std::string toString(ColumnDataInfo::ScalarType type, int length, 
+    ColumnDataInfo::LengthType lengthType);
 std::string isColumnNotNullToString(bool isNotNull);
 std::string columnOptionsToString(bool allowCommitTimestamps);
 std::string toPrimaryKeys(const google::protobuf::RepeatedPtrField<Column>& columns);

@@ -18,10 +18,7 @@ syntax = "proto2";
 
 import "src/fuzz/protobufs/create_table.proto";
 
-
-
 package spanner_ddl;
-
 
 message SpannerDDLStatement {
     oneof DDLStatement {

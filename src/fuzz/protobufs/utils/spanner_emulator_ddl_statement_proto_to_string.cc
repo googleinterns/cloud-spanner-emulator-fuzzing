@@ -29,22 +29,21 @@ using spanner_ddl::CreateTable;
 using spanner_ddl::Column;
 using spanner_ddl::ColumnDataInfo;
 
-
 // forward declarations
 std::string toString(SpannerDDLStatement statement);
 std::string toString(CreateTable createTable);
 std::string toString(const google::protobuf::RepeatedPtrField<Column> columns);
 std::string toString(Column column);
 std::string toString(ColumnDataInfo columnDataInfo);
-std::string toString(ColumnDataInfo::ScalarType type, int length, ColumnDataInfo::LengthType lengthType);
+std::string toString(ColumnDataInfo::ScalarType type, 
+    int length, ColumnDataInfo::LengthType lengthType);
 std::string isColumnNotNullToString(bool isNotNull);
 std::string columnOptionsToString(bool allowCommitTimestamps);
 std::string toPrimaryKeys(const google::protobuf::RepeatedPtrField<Column>& columns);
 std::string columnToPrimaryKey(Column column);
 std::string toString(Column::Orientation orientation);
 
-
-// takes any Spanner DDL statement and returns an appropriate string for the emulator
+// Transforms any Emulator DDL statement into a syntactically valid string
 std::string toString(SpannerDDLStatement statement) {
     using statementType = SpannerDDLStatement::DDLStatementCase;
     switch (statement.DDLStatement_case()) {
@@ -58,7 +57,7 @@ std::string toString(SpannerDDLStatement statement) {
 
 // generates a 'CREATE TABLE ...' statement
 std::string toString(CreateTable createTable) {
-    return absl::Substitute("CREATE TABLE $0 ([ $1,$2 ]) PRIMARY KEY ( [$3] )", 
+    return absl::Substitute("CREATE TABLE $0 ([ $1,$2 ]) PRIMARY KEY ( [$3] )",
                 createTable.tablename(), 
                 toString(createTable.primarykeys()),
                 toString(createTable.nonprimarykeys()),
@@ -77,6 +76,9 @@ std::string toString(const google::protobuf::RepeatedPtrField<Column> columns) {
     return columnsAsString;
 }
 
+// A column is { column_name data_type [ NOT NULL ] [ options_def ] }
+// where [ NOT NULL ] is optional and [ options_def ] is 
+// { OPTIONS ( allow_commit_timestamp = { true | null } ) }
 std::string toString(Column column) {
     return absl::Substitute("{ $0 $1 $2 $3 },", 
         column.columnname(), 
@@ -88,12 +90,15 @@ std::string toString(Column column) {
 // returns "data_type" or "ARRAY< data_type >" based on ColumnDataInfo
 std::string toString(ColumnDataInfo columnDataInfo) {
     return columnDataInfo.isarray() ? 
-        absl::Substitute("ARRAY< $0 >", toString(columnDataInfo.scalartype(), columnDataInfo.length(), columnDataInfo.lengthtype())) :
-        toString(columnDataInfo.scalartype(), columnDataInfo.length(), columnDataInfo.lengthtype());
+        absl::Substitute("ARRAY< $0 >", toString(columnDataInfo.scalartype(), 
+            columnDataInfo.length(), columnDataInfo.lengthtype())) :
+        toString(columnDataInfo.scalartype(), columnDataInfo.length(), 
+            columnDataInfo.lengthtype());
 }
 
 // returns the column's scalar type as a string
-std::string toString(ColumnDataInfo::ScalarType type, int length, ColumnDataInfo::LengthType lengthType) {
+std::string toString(ColumnDataInfo::ScalarType type, int length, 
+    ColumnDataInfo::LengthType lengthType) {
     switch (type) {
         case ColumnDataInfo::BOOL:
             return "BOOL";
@@ -106,9 +111,11 @@ std::string toString(ColumnDataInfo::ScalarType type, int length, ColumnDataInfo
                 case ColumnDataInfo::BOUND:
                     // ensures length is a positive number
                     length = std::abs(length) + 1;
-                    return absl::Substitute("STRING( $0 )", std::to_string(length % 2621440));
+                    return absl::Substitute("STRING( $0 )", 
+                        std::to_string(length % 2621440));
                 case ColumnDataInfo::UNBOUND:
-                    return absl::Substitute("STRING( $0 )", std::to_string(length));
+                    return absl::Substitute("STRING( $0 )", 
+                        std::to_string(length));
                 case ColumnDataInfo::MAX:
                     return "STRING( MAX )";
                 default:
@@ -119,9 +126,11 @@ std::string toString(ColumnDataInfo::ScalarType type, int length, ColumnDataInfo
                 case ColumnDataInfo::BOUND:
                     // ensures length is a positive number
                     length = std::abs(length) + 1;
-                    return absl::Substitute("BYTES( $0 )", std::to_string(length % 10485760));
+                    return absl::Substitute("BYTES( $0 )", 
+                        std::to_string(length % 10485760));
                 case ColumnDataInfo::UNBOUND:
-                    return absl::Substitute("BYTES( $0 )", std::to_string(length));
+                    return absl::Substitute("BYTES( $0 )", 
+                        std::to_string(length));
                 case ColumnDataInfo::MAX:
                     return "BYTES( MAX )";
                 default:
@@ -145,23 +154,27 @@ std::string isColumnNotNullToString(bool isNotNull) {
 // the current api only allows for timestamps
 std::string columnOptionsToString(bool allowCommitTimestamps) {
     std::string allowTimestamps = allowCommitTimestamps ? "true" : "null";
-    return absl::Substitute("{ OPTIONS ( allow_commit_timestamp = { $0 } ) }", allowTimestamps);
+    return absl::Substitute("{ OPTIONS ( allow_commit_timestamp = { $0 } ) }",
+         allowTimestamps);
 }
 
+// generates a list of the primary keys' column names and their orientations
 std::string toPrimaryKeys(const google::protobuf::RepeatedPtrField<Column>& columns) {
     std::string primaryKeysAsString = "";
     for (int i = 0; i < columns.size(); i++) {
         const Column& currCol = columns.at(i);
         absl::StrAppend(&primaryKeysAsString, columnToPrimaryKey(currCol));
     }
-    // columnToPrimaryKey(currCol) will have an extra comma at the end so chop it off
-    primaryKeysAsString = primaryKeysAsString.substr(0, primaryKeysAsString.size() - 1);
+    // columnToPrimaryKey(currCol) will have an extra comma at the end
+    primaryKeysAsString = primaryKeysAsString.substr(0, 
+        primaryKeysAsString.size() - 1);
 
     return primaryKeysAsString;
 }
 
 std::string columnToPrimaryKey(Column column) {
-    return absl::Substitute("$0 [ { $1 } ],", column.columnname(), toString(column.orientation()));
+    return absl::Substitute("$0 [ { $1 } ],", column.columnname(), 
+        toString(column.orientation()));
 }
 
 std::string toString(Column::Orientation orientation) {

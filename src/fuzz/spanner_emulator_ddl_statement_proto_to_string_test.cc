@@ -128,7 +128,6 @@ TEST(DDLStatementProtoToString, CreateTableToString) {
     EXPECT_EQ(createTable.primarykeys().size(), 2);
     EXPECT_EQ(createTable.nonprimarykeys().size(), 1);
 
-
     EXPECT_EQ(toString(createTable), 
         absl::StrCat("CREATE TABLE testTable ([ { testColumn1 STRING( ",
         "200 ) NOT NULL { OPTIONS ( allow_commit_timestamp = { true } )",
@@ -193,7 +192,6 @@ TEST(DDLStatementProtoToString, ColumnToStringTest) {
 
     EXPECT_EQ(toString(column), absl::StrCat("{ testColumn STRING( 201 )",
     " NOT NULL { OPTIONS ( allow_commit_timestamp = { true } ) } },"));
-
 }
 
 TEST(DDLStatementProtoToString, ColumnInfoDataToStringTest) {
@@ -213,7 +211,6 @@ TEST(DDLStatementProtoToString, ColumnInfoDataToStringTest) {
 
     columnDataInfo.set_isarray(true);
     EXPECT_EQ(toString(columnDataInfo), "ARRAY< STRING( 201 ) >");  
-
 }
 
 TEST(DDLStatementProtoToString, ColumnDataInfoToStringHelperTest) {
@@ -281,40 +278,9 @@ TEST(DDLStatementProtoToString, IsColumnNotNullToStringTest) {
     EXPECT_EQ(isColumnNotNullToString(false), "");
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-TEST(DDLStatementProtoToString, ColumnOrientationTest) {
-    Column column;
-    EXPECT_EQ(column.has_orientation(), false);
-
-    column.set_orientation(Column::ASC);
-    EXPECT_EQ(toString(column.orientation()), "ASC");
-
-    column.set_orientation(Column::DESC);
-    EXPECT_EQ(toString(column.orientation()), "DESC");
-}
-
-TEST(DDLStatementProtoToString, ColumnToPrimaryKeyTest) {
-    Column column;
-    EXPECT_EQ(column.has_columnname(), false);
-    EXPECT_EQ(column.has_orientation(), false);
-
-    column.set_orientation(Column::ASC);
-    column.set_columnname("testName");
-
-    EXPECT_EQ(columnToPrimaryKey(column), "testName [ { ASC } ],");
+TEST(DDLStatementProtoToString, ColumnOptionsToStringTest) {
+    EXPECT_EQ(columnOptionsToString(false), "{ OPTIONS ( allow_commit_timestamp = { null } ) }");
+    EXPECT_EQ(columnOptionsToString(true), "{ OPTIONS ( allow_commit_timestamp = { true } ) }");
 }
 
 TEST(DDLStatementProtoToString, ToPrimaryKeysTest) {
@@ -339,11 +305,24 @@ TEST(DDLStatementProtoToString, ToPrimaryKeysTest) {
     EXPECT_EQ(toPrimaryKeys(createTable.primarykeys()), "testName1 [ { ASC } ],testName2 [ { DESC } ]");
 }
 
-TEST(DDLStatementProtoToString, ColumnOptionsToStringTest) {
-    EXPECT_EQ(columnOptionsToString(false), "{ OPTIONS ( allow_commit_timestamp = { null } ) }");
-    EXPECT_EQ(columnOptionsToString(true), "{ OPTIONS ( allow_commit_timestamp = { true } ) }");
+TEST(DDLStatementProtoToString, ColumnToPrimaryKeyTest) {
+    Column column;
+    EXPECT_EQ(column.has_columnname(), false);
+    EXPECT_EQ(column.has_orientation(), false);
+
+    column.set_orientation(Column::ASC);
+    column.set_columnname("testName");
+
+    EXPECT_EQ(columnToPrimaryKey(column), "testName [ { ASC } ],");
 }
 
+TEST(DDLStatementProtoToString, ColumnOrientationTest) {
+    Column column;
+    EXPECT_EQ(column.has_orientation(), false);
 
+    column.set_orientation(Column::ASC);
+    EXPECT_EQ(toString(column.orientation()), "ASC");
 
-
+    column.set_orientation(Column::DESC);
+    EXPECT_EQ(toString(column.orientation()), "DESC");
+}

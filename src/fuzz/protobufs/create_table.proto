@@ -58,8 +58,7 @@ message Column {
     required Orientation orientation = 5 [default = ASC];
 }
 
-
-//represents a table
+// represents a 'CREATE TABLE' statement
 message CreateTable {
     required string tableName = 1;
     repeated Column primaryKeys = 2;
