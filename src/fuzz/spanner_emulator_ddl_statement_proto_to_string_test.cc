@@ -291,18 +291,18 @@ TEST(DDLStatementProtoToString, ToPrimaryKeysTest) {
     EXPECT_EQ(column1->has_orientation(), false);
 
     column1->set_orientation(Column::ASC);
-    column1->set_columnname("testName1");
+    column1->set_columnname("testColumn1");
 
     Column* column2 = createTable.add_primarykeys();
     EXPECT_EQ(column2->has_columnname(), false);
     EXPECT_EQ(column2->has_orientation(), false);
 
     column2->set_orientation(Column::DESC);
-    column2->set_columnname("testName2");
+    column2->set_columnname("testColumn2");
 
     EXPECT_EQ(createTable.primarykeys().size(), 2);
 
-    EXPECT_EQ(toPrimaryKeys(createTable.primarykeys()), "testName1 [ { ASC } ],testName2 [ { DESC } ]");
+    EXPECT_EQ(toPrimaryKeys(createTable.primarykeys()), "testColumn1 [ { ASC } ],testColumn2 [ { DESC } ]");
 }
 
 TEST(DDLStatementProtoToString, ColumnToPrimaryKeyTest) {
@@ -311,9 +311,9 @@ TEST(DDLStatementProtoToString, ColumnToPrimaryKeyTest) {
     EXPECT_EQ(column.has_orientation(), false);
 
     column.set_orientation(Column::ASC);
-    column.set_columnname("testName");
+    column.set_columnname("testColumn");
 
-    EXPECT_EQ(columnToPrimaryKey(column), "testName [ { ASC } ],");
+    EXPECT_EQ(columnToPrimaryKey(column), "testColumn [ { ASC } ],");
 }
 
 TEST(DDLStatementProtoToString, ColumnOrientationTest) {
