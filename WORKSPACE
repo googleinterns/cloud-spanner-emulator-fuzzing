@@ -1,6 +1,6 @@
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
-
 workspace(name = "com_google_cloud_spanner_emulator_fuzzing")
+
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 # Emulator and CPP API dependencies
 
