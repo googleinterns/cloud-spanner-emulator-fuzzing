@@ -19,6 +19,7 @@
 
 #include <google/protobuf/repeated_field.h>
 
+#include <cmath>
 #include <string>
 #include "absl/strings/substitute.h"
 #include "absl/strings/str_cat.h"
@@ -35,7 +36,7 @@ std::string toString(CreateTable createTable);
 std::string toString(const google::protobuf::RepeatedPtrField<Column> columns);
 std::string toString(Column column);
 std::string toString(ColumnDataInfo columnDataInfo);
-std::string toString(ColumnDataInfo::ScalarType type, int length);
+std::string toString(ColumnDataInfo::ScalarType type, int length, ColumnDataInfo::LengthType lengthType);
 std::string isColumnNotNullToString(bool isNotNull);
 std::string columnOptionsToString(bool allowCommitTimestamps);
 std::string toPrimaryKeys(const google::protobuf::RepeatedPtrField<Column>& columns);
@@ -87,12 +88,12 @@ std::string toString(Column column) {
 // returns "data_type" or "ARRAY< data_type >" based on ColumnDataInfo
 std::string toString(ColumnDataInfo columnDataInfo) {
     return columnDataInfo.isarray() ? 
-        absl::Substitute("ARRAY< $0 >", toString(columnDataInfo.type(), columnDataInfo.length())) :
-        toString(columnDataInfo.type(), columnDataInfo.length());
+        absl::Substitute("ARRAY< $0 >", toString(columnDataInfo.scalartype(), columnDataInfo.length(), columnDataInfo.lengthtype())) :
+        toString(columnDataInfo.scalartype(), columnDataInfo.length(), columnDataInfo.lengthtype());
 }
 
 // returns the column's scalar type as a string
-std::string toString(ColumnDataInfo::ScalarType type, int length) {
+std::string toString(ColumnDataInfo::ScalarType type, int length, ColumnDataInfo::LengthType lengthType) {
     switch (type) {
         case ColumnDataInfo::BOOL:
             return "BOOL";
@@ -101,9 +102,31 @@ std::string toString(ColumnDataInfo::ScalarType type, int length) {
         case ColumnDataInfo::FLOAT64:
             return "FLOAT64";
         case ColumnDataInfo::STRING:
-            return absl::Substitute("STRING( $0 )", std::to_string(length));
+            switch (lengthType) {
+                case ColumnDataInfo::BOUND:
+                    // ensures length is a positive number
+                    length = std::abs(length) + 1;
+                    return absl::Substitute("STRING( $0 )", std::to_string(length % 2621440));
+                case ColumnDataInfo::UNBOUND:
+                    return absl::Substitute("STRING( $0 )", std::to_string(length));
+                case ColumnDataInfo::MAX:
+                    return "STRING( MAX )";
+                default:
+                    return ""; // never triggers
+            }
         case ColumnDataInfo::BYTES:
-            return absl::Substitute("BYTES( $0 )", std::to_string(length));
+            switch (lengthType) {
+                case ColumnDataInfo::BOUND:
+                    // ensures length is a positive number
+                    length = std::abs(length) + 1;
+                    return absl::Substitute("BYTES( $0 )", std::to_string(length % 10485760));
+                case ColumnDataInfo::UNBOUND:
+                    return absl::Substitute("BYTES( $0 )", std::to_string(length));
+                case ColumnDataInfo::MAX:
+                    return "BYTES( MAX )";
+                default:
+                    return ""; // never triggers
+            }
         case ColumnDataInfo::DATE:
             return "DATE";
         case ColumnDataInfo::TIMESTAMP:
@@ -115,7 +138,7 @@ std::string toString(ColumnDataInfo::ScalarType type, int length) {
 
 // if this column should be not null, return the appropriate string
 std::string isColumnNotNullToString(bool isNotNull) {
-    return isNotNull ? "[ NOT NULL ]" : "";
+    return isNotNull ? "NOT NULL" : "";
 }
 
 // return the options for this column as a string
@@ -131,7 +154,7 @@ std::string toPrimaryKeys(const google::protobuf::RepeatedPtrField<Column>& colu
         const Column& currCol = columns.at(i);
         absl::StrAppend(&primaryKeysAsString, columnToPrimaryKey(currCol));
     }
-    // chop off an extra "," at the end
+    // columnToPrimaryKey(currCol) will have an extra comma at the end so chop it off
     primaryKeysAsString = primaryKeysAsString.substr(0, primaryKeysAsString.size() - 1);
 
     return primaryKeysAsString;

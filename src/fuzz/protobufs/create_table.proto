@@ -30,9 +30,16 @@ message ColumnDataInfo {
         DATE = 5;
         TIMESTAMP = 6;
     }
-    required ScalarType type = 2;
+    required ScalarType scalarType = 2;
     // represents the length for string/byte types
     required int32 length = 3;
+
+    enum LengthType {
+        BOUND = 0;
+        UNBOUND = 1;
+        MAX = 2;
+    }
+    required LengthType lengthType = 4;
 }
 
 // represents a column of a table
