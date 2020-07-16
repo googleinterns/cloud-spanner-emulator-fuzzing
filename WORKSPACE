@@ -183,7 +183,7 @@ http_archive(
 
 http_archive(
     name = "libprotobuf_mutator",
-    build_file = '//:third_party/envoy/libprotobuf_mutator.BUILD',
+    build_file = '//third_party/envoy/libprotobuf_mutator.BUILD',
     strip_prefix = "libprotobuf-mutator-master",
     urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
 )
