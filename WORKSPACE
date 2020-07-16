@@ -1,5 +1,7 @@
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
+workspace(name = "com_google_cloud_spanner_emulator_fuzzing")
+
 # Emulator and CPP API dependencies
 
 git_repository(
@@ -183,7 +185,7 @@ http_archive(
 
 http_archive(
     name = "libprotobuf_mutator",
-    build_file = '//third_party/envoy/libprotobuf_mutator.BUILD',
+    build_file = '@com_google_cloud_spanner_emulator_fuzzing//:third_party/envoy/libprotobuf_mutator.BUILD',
     strip_prefix = "libprotobuf-mutator-master",
     urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
 )
