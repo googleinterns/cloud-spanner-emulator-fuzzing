@@ -175,23 +175,12 @@ load("@com_github_googleapis_google_cloud_cpp_common//bazel:google_cloud_cpp_com
 google_cloud_cpp_common_deps()
 
 http_archive(
-    name = "bazel_skylib",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.0.2/bazel-skylib-1.0.2.tar.gz",
-        "https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.2/bazel-skylib-1.0.2.tar.gz",
-    ],
-    sha256 = "97e70364e9249702246c0e9444bccdc4b847bed1eb03c5a3ece4f83dfe6abc44",
-)
-
-http_archive(
     name = "libprotobuf_mutator",
     build_file = '@com_google_cloud_spanner_emulator_fuzzing//:third_party/envoy/libprotobuf_mutator.BUILD',
     strip_prefix = "libprotobuf-mutator-master",
     urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
 )
 
-load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
-bazel_skylib_workspace()
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 protobuf_deps()
 
