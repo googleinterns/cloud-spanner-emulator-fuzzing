@@ -370,7 +370,7 @@ TEST(DDLStatementProtoToString, ColumnToPrimaryKeyTest) {
     column.set_orientation(Column::ASC);
     column.set_columnname("testColumn");
 
-    EXPECT_EQ(columnToPrimaryKey(column), "testColumn ASC,");
+    EXPECT_EQ(columnToPrimaryKey(column), "testColumn ASC");
 }
 
 TEST(DDLStatementProtoToString, ColumnOrientationTest) {

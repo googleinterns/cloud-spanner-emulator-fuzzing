@@ -31,16 +31,16 @@ using google::protobuf::RepeatedPtrField;
 
 // proto to string methods
 std::string toString(const SpannerDDLStatement& statement);
-std::string toString(const CreateTable& createTable);
+std::string toString(const CreateTable& create_table);
 std::string tableColumnsToString(const RepeatedPtrField<Column>& primary_keys,
     const RepeatedPtrField<Column>& non_primary_keys);
 std::string toString(const RepeatedPtrField<Column>& columns);
 std::string toString(const Column& column);
-std::string toString(const ColumnDataType& columnDataType);
-std::string toString(const ColumnDataType::ScalarType& type, int length, 
-    const ColumnDataType::LengthType& lengthType);
-std::string isColumnNotNullToString(bool isNotNull);
-std::string columnOptionsToString(bool allowCommitTimestamps);
+std::string toString(const ColumnDataType& column_data_type);
+std::string toString(const ColumnDataType::ScalarType& scalar_type, int length, 
+    const ColumnDataType::LengthType& length_type);
+std::string isColumnNotNullToString(bool is_not_null);
+std::string columnOptionsToString(bool allow_commit_timestamps);
 std::string toPrimaryKeys(const RepeatedPtrField<Column>& columns);
 std::string columnToPrimaryKey(const Column& column);
 std::string toString(const Column::Orientation& orientation);
