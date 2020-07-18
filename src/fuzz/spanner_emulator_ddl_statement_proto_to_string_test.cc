@@ -37,46 +37,46 @@ TEST(DDLStatementProtoToString, DDLStatementToString) {
     SpannerFuzzingStatements statements;
     SpannerDDLStatement* statement1 = statements.add_statements();
 
-    CreateTable* createTable = statement1->mutable_createtable();
-    createTable->set_tablename("testTable");
+    CreateTable* create_table = statement1->mutable_createtable();
+    create_table->set_tablename("testTable");
 
-    Column* column1 = createTable->add_primarykeys();
+    Column* column1 = create_table->add_primarykeys();
     column1->set_columnname("testColumn1");
     
-    ColumnDataType* columnDataType1 = column1->mutable_columndatatype();
-    columnDataType1->set_scalartype(ColumnDataType::STRING);
-    columnDataType1->set_length(200);
-    columnDataType1->set_lengthtype(ColumnDataType::UNBOUND);
-    columnDataType1->set_isarray(false);
+    ColumnDataType* column_data_type1 = column1->mutable_columndatatype();
+    column_data_type1->set_scalartype(ColumnDataType::STRING);
+    column_data_type1->set_length(200);
+    column_data_type1->set_lengthtype(ColumnDataType::UNBOUND);
+    column_data_type1->set_isarray(false);
     column1->set_isnotnull(true);
     column1->set_allowcommittimestamp(true);
     column1->set_orientation(Column::ASC);
 
-    Column* column2 = createTable->add_primarykeys();
+    Column* column2 = create_table->add_primarykeys();
     column2->set_columnname("testColumn2");
     
-    ColumnDataType* columnDataType2 = column2->mutable_columndatatype();
-    columnDataType2->set_scalartype(ColumnDataType::BOOL);
-    columnDataType2->set_length(2);
-    columnDataType2->set_lengthtype(ColumnDataType::MAX);
-    columnDataType2->set_isarray(true);
+    ColumnDataType* column_data_type2 = column2->mutable_columndatatype();
+    column_data_type2->set_scalartype(ColumnDataType::BOOL);
+    column_data_type2->set_length(2);
+    column_data_type2->set_lengthtype(ColumnDataType::MAX);
+    column_data_type2->set_isarray(true);
     column2->set_isnotnull(false);
     column2->set_allowcommittimestamp(false);
     column2->set_orientation(Column::DESC);
 
-    Column* column3 = createTable->add_nonprimarykeys();
+    Column* column3 = create_table->add_nonprimarykeys();
     column3->set_columnname("testColumn3");
 
-    ColumnDataType* columnDataType3 = column3->mutable_columndatatype();
-    columnDataType3->set_scalartype(ColumnDataType::TIMESTAMP);
-    columnDataType3->set_length(-100);
-    columnDataType3->set_lengthtype(ColumnDataType::BOUND);
-    columnDataType3->set_isarray(false);
+    ColumnDataType* column_data_type3 = column3->mutable_columndatatype();
+    column_data_type3->set_scalartype(ColumnDataType::TIMESTAMP);
+    column_data_type3->set_length(-100);
+    column_data_type3->set_lengthtype(ColumnDataType::BOUND);
+    column_data_type3->set_isarray(false);
     column3->set_isnotnull(false);
     column3->set_allowcommittimestamp(true);
 
-    EXPECT_EQ(createTable->primarykeys().size(), 2);
-    EXPECT_EQ(createTable->nonprimarykeys().size(), 1);
+    EXPECT_EQ(create_table->primarykeys().size(), 2);
+    EXPECT_EQ(create_table->nonprimarykeys().size(), 1);
 
     EXPECT_EQ(toString(*statement1), 
         absl::StrCat("CREATE TABLE testTable ( testColumn1 STRING( 200 )",
@@ -88,48 +88,48 @@ TEST(DDLStatementProtoToString, DDLStatementToString) {
 }
 
 TEST(DDLStatementProtoToString, CreateTableToString) {
-    CreateTable createTable;
-    createTable.set_tablename("testTable");
+    CreateTable create_table;
+    create_table.set_tablename("testTable");
 
-    Column* column1 = createTable.add_primarykeys();
+    Column* column1 = create_table.add_primarykeys();
     column1->set_columnname("testColumn1");
     
-    ColumnDataType* columnDataType1 = column1->mutable_columndatatype();
-    columnDataType1->set_scalartype(ColumnDataType::STRING);
-    columnDataType1->set_length(200);
-    columnDataType1->set_lengthtype(ColumnDataType::UNBOUND);
-    columnDataType1->set_isarray(false);
+    ColumnDataType* column_data_type1 = column1->mutable_columndatatype();
+    column_data_type1->set_scalartype(ColumnDataType::STRING);
+    column_data_type1->set_length(200);
+    column_data_type1->set_lengthtype(ColumnDataType::UNBOUND);
+    column_data_type1->set_isarray(false);
     column1->set_isnotnull(true);
     column1->set_allowcommittimestamp(true);
     column1->set_orientation(Column::ASC);
 
-    Column* column2 = createTable.add_primarykeys();
+    Column* column2 = create_table.add_primarykeys();
     column2->set_columnname("testColumn2");
     
-    ColumnDataType* columnDataType2 = column2->mutable_columndatatype();
-    columnDataType2->set_scalartype(ColumnDataType::BOOL);
-    columnDataType2->set_length(2);
-    columnDataType2->set_lengthtype(ColumnDataType::MAX);
-    columnDataType2->set_isarray(true);
+    ColumnDataType* column_data_type2 = column2->mutable_columndatatype();
+    column_data_type2->set_scalartype(ColumnDataType::BOOL);
+    column_data_type2->set_length(2);
+    column_data_type2->set_lengthtype(ColumnDataType::MAX);
+    column_data_type2->set_isarray(true);
     column2->set_isnotnull(false);
     column2->set_allowcommittimestamp(false);
     column2->set_orientation(Column::DESC);
 
-    Column* column3 = createTable.add_nonprimarykeys();
+    Column* column3 = create_table.add_nonprimarykeys();
     column3->set_columnname("testColumn3");
 
-    ColumnDataType* columnDataType3 = column3->mutable_columndatatype();
-    columnDataType3->set_scalartype(ColumnDataType::TIMESTAMP);
-    columnDataType3->set_length(-100);
-    columnDataType3->set_lengthtype(ColumnDataType::BOUND);
-    columnDataType3->set_isarray(false);
+    ColumnDataType* column_data_type3 = column3->mutable_columndatatype();
+    column_data_type3->set_scalartype(ColumnDataType::TIMESTAMP);
+    column_data_type3->set_length(-100);
+    column_data_type3->set_lengthtype(ColumnDataType::BOUND);
+    column_data_type3->set_isarray(false);
     column3->set_isnotnull(false);
     column3->set_allowcommittimestamp(true);
 
-    EXPECT_EQ(createTable.primarykeys().size(), 2);
-    EXPECT_EQ(createTable.nonprimarykeys().size(), 1);
+    EXPECT_EQ(create_table.primarykeys().size(), 2);
+    EXPECT_EQ(create_table.nonprimarykeys().size(), 1);
 
-    EXPECT_EQ(toString(createTable), 
+    EXPECT_EQ(toString(create_table), 
         absl::StrCat("CREATE TABLE testTable ( testColumn1 STRING( ",
         "200 ) NOT NULL OPTIONS ( allow_commit_timestamp = true )",
         ",testColumn2 ARRAY< BOOL >  OPTIONS ( allow_commit_timestamp",
@@ -146,11 +146,11 @@ TEST(DDLStatementProtoToString, TableColumnsToStringTest) {
     Column* column1 = create_table.add_primarykeys();
     column1->set_columnname("testColumn1");
     
-    ColumnDataType* columnDataType1 = column1->mutable_columndatatype();
-    columnDataType1->set_scalartype(ColumnDataType::STRING);
-    columnDataType1->set_length(200);
-    columnDataType1->set_lengthtype(ColumnDataType::UNBOUND);
-    columnDataType1->set_isarray(false);
+    ColumnDataType* column_data_type1 = column1->mutable_columndatatype();
+    column_data_type1->set_scalartype(ColumnDataType::STRING);
+    column_data_type1->set_length(200);
+    column_data_type1->set_lengthtype(ColumnDataType::UNBOUND);
+    column_data_type1->set_isarray(false);
     column1->set_isnotnull(true);
     column1->set_allowcommittimestamp(true);
 
@@ -162,11 +162,11 @@ TEST(DDLStatementProtoToString, TableColumnsToStringTest) {
     Column* column2 = create_table.add_nonprimarykeys();
     column2->set_columnname("testColumn2");
     
-    ColumnDataType* columnDataType2 = column2->mutable_columndatatype();
-    columnDataType2->set_scalartype(ColumnDataType::BOOL);
-    columnDataType2->set_length(2);
-    columnDataType2->set_lengthtype(ColumnDataType::MAX);
-    columnDataType2->set_isarray(true);
+    ColumnDataType* column_data_type2 = column2->mutable_columndatatype();
+    column_data_type2->set_scalartype(ColumnDataType::BOOL);
+    column_data_type2->set_length(2);
+    column_data_type2->set_lengthtype(ColumnDataType::MAX);
+    column_data_type2->set_isarray(true);
     column2->set_isnotnull(false);
     column2->set_allowcommittimestamp(false);
     
@@ -176,11 +176,11 @@ TEST(DDLStatementProtoToString, TableColumnsToStringTest) {
     Column* column3 = create_table.add_primarykeys();
     column1->set_columnname("testColumn3");
 
-    ColumnDataType* columnDataType3 = column3->mutable_columndatatype();
-    columnDataType3->set_scalartype(ColumnDataType::STRING);
-    columnDataType3->set_length(200);
-    columnDataType3->set_lengthtype(ColumnDataType::UNBOUND);
-    columnDataType3->set_isarray(false);
+    ColumnDataType* column_data_type3 = column3->mutable_columndatatype();
+    column_data_type3->set_scalartype(ColumnDataType::STRING);
+    column_data_type3->set_length(200);
+    column_data_type3->set_lengthtype(ColumnDataType::UNBOUND);
+    column_data_type3->set_isarray(false);
     column3->set_isnotnull(true);
     column3->set_allowcommittimestamp(true);
 
@@ -192,36 +192,36 @@ TEST(DDLStatementProtoToString, TableColumnsToStringTest) {
 }
 
 TEST(DDLStatementProtoToString, ColumnsToString) {
-    CreateTable createTable;
+    CreateTable create_table;
 
-    EXPECT_EQ(createTable.primarykeys().size(), 0);
-    EXPECT_EQ(toString(createTable.primarykeys()), "");
+    EXPECT_EQ(create_table.primarykeys().size(), 0);
+    EXPECT_EQ(toString(create_table.primarykeys()), "");
 
-    Column* column1 = createTable.add_primarykeys();
+    Column* column1 = create_table.add_primarykeys();
     column1->set_columnname("testColumn1");
     
-    ColumnDataType* columnDataType1 = column1->mutable_columndatatype();
-    columnDataType1->set_scalartype(ColumnDataType::STRING);
-    columnDataType1->set_length(200);
-    columnDataType1->set_lengthtype(ColumnDataType::UNBOUND);
-    columnDataType1->set_isarray(false);
+    ColumnDataType* column_data_type1 = column1->mutable_columndatatype();
+    column_data_type1->set_scalartype(ColumnDataType::STRING);
+    column_data_type1->set_length(200);
+    column_data_type1->set_lengthtype(ColumnDataType::UNBOUND);
+    column_data_type1->set_isarray(false);
     column1->set_isnotnull(true);
     column1->set_allowcommittimestamp(true);
 
-    Column* column2 = createTable.add_primarykeys();
+    Column* column2 = create_table.add_primarykeys();
     column2->set_columnname("testColumn2");
     
-    ColumnDataType* columnDataType2 = column2->mutable_columndatatype();
-    columnDataType2->set_scalartype(ColumnDataType::BOOL);
-    columnDataType2->set_length(2);
-    columnDataType2->set_lengthtype(ColumnDataType::MAX);
-    columnDataType2->set_isarray(true);
+    ColumnDataType* column_data_type2 = column2->mutable_columndatatype();
+    column_data_type2->set_scalartype(ColumnDataType::BOOL);
+    column_data_type2->set_length(2);
+    column_data_type2->set_lengthtype(ColumnDataType::MAX);
+    column_data_type2->set_isarray(true);
     column2->set_isnotnull(false);
     column2->set_allowcommittimestamp(false);
 
-    EXPECT_EQ(createTable.primarykeys().size(), 2);
+    EXPECT_EQ(create_table.primarykeys().size(), 2);
 
-    EXPECT_EQ(toString(createTable.primarykeys()), 
+    EXPECT_EQ(toString(create_table.primarykeys()), 
         absl::StrCat("testColumn1 STRING( 200 ) NOT NULL ", 
         "OPTIONS ( allow_commit_timestamp = true ),",
         "testColumn2 ARRAY< BOOL >  OPTIONS",
@@ -232,17 +232,17 @@ TEST(DDLStatementProtoToString, ColumnToStringTest) {
     Column column;
     column.set_columnname("testColumn");
     
-    ColumnDataType* columnDataType = column.mutable_columndatatype();
+    ColumnDataType* column_data_type = column.mutable_columndatatype();
 
-    EXPECT_EQ(columnDataType->has_scalartype(), false);
-    EXPECT_EQ(columnDataType->has_length(), false);
-    EXPECT_EQ(columnDataType->has_lengthtype(), false);
-    EXPECT_EQ(columnDataType->has_isarray(), false);
+    EXPECT_EQ(column_data_type->has_scalartype(), false);
+    EXPECT_EQ(column_data_type->has_length(), false);
+    EXPECT_EQ(column_data_type->has_lengthtype(), false);
+    EXPECT_EQ(column_data_type->has_isarray(), false);
 
-    columnDataType->set_scalartype(ColumnDataType::STRING);
-    columnDataType->set_length(200);
-    columnDataType->set_lengthtype(ColumnDataType::BOUND);
-    columnDataType->set_isarray(false);
+    column_data_type->set_scalartype(ColumnDataType::STRING);
+    column_data_type->set_length(200);
+    column_data_type->set_lengthtype(ColumnDataType::BOUND);
+    column_data_type->set_isarray(false);
 
     column.set_isnotnull(true);
     column.set_allowcommittimestamp(true);
@@ -252,82 +252,82 @@ TEST(DDLStatementProtoToString, ColumnToStringTest) {
 }
 
 TEST(DDLStatementProtoToString, ColumnInfoDataToStringTest) {
-    ColumnDataType columnDataType;
+    ColumnDataType column_data_type;
 
-    EXPECT_EQ(columnDataType.has_scalartype(), false);
-    EXPECT_EQ(columnDataType.has_length(), false);
-    EXPECT_EQ(columnDataType.has_lengthtype(), false);
-    EXPECT_EQ(columnDataType.has_isarray(), false);
+    EXPECT_EQ(column_data_type.has_scalartype(), false);
+    EXPECT_EQ(column_data_type.has_length(), false);
+    EXPECT_EQ(column_data_type.has_lengthtype(), false);
+    EXPECT_EQ(column_data_type.has_isarray(), false);
 
-    columnDataType.set_scalartype(ColumnDataType::STRING);
-    columnDataType.set_length(200);
-    columnDataType.set_lengthtype(ColumnDataType::BOUND);
+    column_data_type.set_scalartype(ColumnDataType::STRING);
+    column_data_type.set_length(200);
+    column_data_type.set_lengthtype(ColumnDataType::BOUND);
 
-    columnDataType.set_isarray(false);
-    EXPECT_EQ(toString(columnDataType), "STRING( 201 )");  
+    column_data_type.set_isarray(false);
+    EXPECT_EQ(toString(column_data_type), "STRING( 201 )");  
 
-    columnDataType.set_isarray(true);
-    EXPECT_EQ(toString(columnDataType), "ARRAY< STRING( 201 ) >");  
+    column_data_type.set_isarray(true);
+    EXPECT_EQ(toString(column_data_type), "ARRAY< STRING( 201 ) >");  
 }
 
 TEST(DDLStatementProtoToString, ColumnDataTypeToStringHelperTest) {
-    ColumnDataType columnDataType;
+    ColumnDataType column_data_type;
 
-    EXPECT_EQ(columnDataType.has_scalartype(), false);
-    EXPECT_EQ(columnDataType.has_length(), false);
-    EXPECT_EQ(columnDataType.has_lengthtype(), false);
+    EXPECT_EQ(column_data_type.has_scalartype(), false);
+    EXPECT_EQ(column_data_type.has_length(), false);
+    EXPECT_EQ(column_data_type.has_lengthtype(), false);
 
-    columnDataType.set_scalartype(ColumnDataType::BOOL);
-    columnDataType.set_length(-500);
-    columnDataType.set_lengthtype(ColumnDataType::UNBOUND);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "BOOL");
+    column_data_type.set_scalartype(ColumnDataType::BOOL);
+    column_data_type.set_length(-500);
+    column_data_type.set_lengthtype(ColumnDataType::UNBOUND);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "BOOL");
 
-    columnDataType.set_scalartype(ColumnDataType::INT64);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "INT64");
+    column_data_type.set_scalartype(ColumnDataType::INT64);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "INT64");
     
-    columnDataType.set_scalartype(ColumnDataType::FLOAT64);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "FLOAT64");
+    column_data_type.set_scalartype(ColumnDataType::FLOAT64);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "FLOAT64");
 
-    columnDataType.set_scalartype(ColumnDataType::DATE);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "DATE");
+    column_data_type.set_scalartype(ColumnDataType::DATE);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "DATE");
 
-    columnDataType.set_scalartype(ColumnDataType::TIMESTAMP);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "TIMESTAMP");
+    column_data_type.set_scalartype(ColumnDataType::TIMESTAMP);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "TIMESTAMP");
 
-    columnDataType.set_scalartype(ColumnDataType::STRING);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "STRING( -500 )");
-    columnDataType.set_lengthtype(ColumnDataType::MAX);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "STRING( MAX )");
-    columnDataType.set_lengthtype(ColumnDataType::BOUND);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "STRING( 501 )");
+    column_data_type.set_scalartype(ColumnDataType::STRING);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "STRING( -500 )");
+    column_data_type.set_lengthtype(ColumnDataType::MAX);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "STRING( MAX )");
+    column_data_type.set_lengthtype(ColumnDataType::BOUND);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "STRING( 501 )");
     // test that the max wraps back to 1
-    columnDataType.set_length(2621440);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "STRING( 1 )");
+    column_data_type.set_length(2621440);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "STRING( 1 )");
 
-    columnDataType.set_length(-500);
-    columnDataType.set_lengthtype(ColumnDataType::UNBOUND);
-    columnDataType.set_scalartype(ColumnDataType::BYTES);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "BYTES( -500 )");
-    columnDataType.set_lengthtype(ColumnDataType::MAX);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "BYTES( MAX )");
-    columnDataType.set_lengthtype(ColumnDataType::BOUND);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "BYTES( 501 )");
+    column_data_type.set_length(-500);
+    column_data_type.set_lengthtype(ColumnDataType::UNBOUND);
+    column_data_type.set_scalartype(ColumnDataType::BYTES);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "BYTES( -500 )");
+    column_data_type.set_lengthtype(ColumnDataType::MAX);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "BYTES( MAX )");
+    column_data_type.set_lengthtype(ColumnDataType::BOUND);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "BYTES( 501 )");
     // test that the max wraps back to 1
-    columnDataType.set_length(10485760);
-    EXPECT_EQ(toString(columnDataType.scalartype(), columnDataType.length(), 
-        columnDataType.lengthtype()), "BYTES( 1 )");
+    column_data_type.set_length(10485760);
+    EXPECT_EQ(toString(column_data_type.scalartype(), column_data_type.length(), 
+        column_data_type.lengthtype()), "BYTES( 1 )");
 }
 
 TEST(DDLStatementProtoToString, IsColumnNotNullToStringTest) {
@@ -341,25 +341,25 @@ TEST(DDLStatementProtoToString, ColumnOptionsToStringTest) {
 }
 
 TEST(DDLStatementProtoToString, ToPrimaryKeysTest) {
-    CreateTable createTable;
+    CreateTable create_table;
 
-    Column* column1 = createTable.add_primarykeys();
+    Column* column1 = create_table.add_primarykeys();
     EXPECT_EQ(column1->has_columnname(), false);
     EXPECT_EQ(column1->has_orientation(), false);
 
     column1->set_orientation(Column::ASC);
     column1->set_columnname("testColumn1");
 
-    Column* column2 = createTable.add_primarykeys();
+    Column* column2 = create_table.add_primarykeys();
     EXPECT_EQ(column2->has_columnname(), false);
     EXPECT_EQ(column2->has_orientation(), false);
 
     column2->set_orientation(Column::DESC);
     column2->set_columnname("testColumn2");
 
-    EXPECT_EQ(createTable.primarykeys().size(), 2);
+    EXPECT_EQ(create_table.primarykeys().size(), 2);
 
-    EXPECT_EQ(toPrimaryKeys(createTable.primarykeys()), "testColumn1 ASC,testColumn2 DESC");
+    EXPECT_EQ(toPrimaryKeys(create_table.primarykeys()), "testColumn1 ASC,testColumn2 DESC");
 }
 
 TEST(DDLStatementProtoToString, ColumnToPrimaryKeyTest) {
