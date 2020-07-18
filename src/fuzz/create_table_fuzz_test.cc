@@ -93,13 +93,14 @@ DEFINE_PROTO_FUZZER(const CreateTable& createTable) {
         auto db_or =
         admin_client.CreateDatabase(database, {createTableDDLStatement})
             .get();
+        if (!db_or) throw std::runtime_error(db_or.status().message());
+
     } catch (std::exception const& ex) {
         LOG(ERROR) << "Failed to create table with the following DDL statement:";
         LOG(ERROR) << createTableDDLStatement;
         return 1;
     }
     
-    if (!db_or) throw std::runtime_error(db_or.status().message());
     LOG(INFO) << "Created database [" << database << "]";
     LOG(INFO) << "Ran following statement: " << createTableDDLStatement;
 
