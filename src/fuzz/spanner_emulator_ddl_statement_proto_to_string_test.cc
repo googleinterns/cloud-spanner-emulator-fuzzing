@@ -84,7 +84,7 @@ TEST(DDLStatementProtoToString, DDLStatementToString) {
         "testColumn2 ARRAY< BOOL >  OPTIONS ( allow_commit_timestamp = ",
         "null ),testColumn3 TIMESTAMP  OPTIONS ",
         "( allow_commit_timestamp = true ) ) PRIMARY KEY ( ",
-        "testColumn1 [ { ASC } ],testColumn2 [ { DESC } ] )"));
+        "testColumn1 ASC,testColumn2 DESC )"));
 }
 
 TEST(DDLStatementProtoToString, CreateTableToString) {
@@ -135,7 +135,7 @@ TEST(DDLStatementProtoToString, CreateTableToString) {
         ",testColumn2 ARRAY< BOOL >  OPTIONS ( allow_commit_timestamp",
         " = null ),testColumn3 TIMESTAMP  OPTIONS ",
         "( allow_commit_timestamp = true ) ) PRIMARY KEY ( ",
-        "testColumn1 [ { ASC } ],testColumn2 [ { DESC } ] )"));
+        "testColumn1 ASC,testColumn2 DESC )"));
 }
 
 TEST(DDLStatementProtoToString, TableColumnsToStringTest) {
@@ -359,7 +359,7 @@ TEST(DDLStatementProtoToString, ToPrimaryKeysTest) {
 
     EXPECT_EQ(createTable.primarykeys().size(), 2);
 
-    EXPECT_EQ(toPrimaryKeys(createTable.primarykeys()), "testColumn1 [ { ASC } ],testColumn2 [ { DESC } ]");
+    EXPECT_EQ(toPrimaryKeys(createTable.primarykeys()), "testColumn1 ASC,testColumn2 DESC");
 }
 
 TEST(DDLStatementProtoToString, ColumnToPrimaryKeyTest) {
@@ -370,7 +370,7 @@ TEST(DDLStatementProtoToString, ColumnToPrimaryKeyTest) {
     column.set_orientation(Column::ASC);
     column.set_columnname("testColumn");
 
-    EXPECT_EQ(columnToPrimaryKey(column), "testColumn [ { ASC } ],");
+    EXPECT_EQ(columnToPrimaryKey(column), "testColumn ASC,");
 }
 
 TEST(DDLStatementProtoToString, ColumnOrientationTest) {

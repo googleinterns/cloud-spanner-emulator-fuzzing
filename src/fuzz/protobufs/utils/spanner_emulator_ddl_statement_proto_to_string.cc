@@ -195,7 +195,7 @@ std::string toPrimaryKeys(const RepeatedPtrField<Column>& columns) {
 }
 
 std::string columnToPrimaryKey(const Column& column) {
-    return absl::Substitute("$0 [ { $1 } ],", column.columnname(), 
+    return absl::Substitute("$0 $1,", column.columnname(), 
         toString(column.orientation()));
 }
 
