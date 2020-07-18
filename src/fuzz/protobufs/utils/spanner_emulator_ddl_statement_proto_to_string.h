@@ -26,18 +26,21 @@
 using spanner_ddl::SpannerDDLStatement;
 using spanner_ddl::CreateTable;
 using spanner_ddl::Column;
-using spanner_ddl::ColumnDataInfo;
+using spanner_ddl::ColumnDataType;
+using google::protobuf::RepeatedPtrField;
 
 // proto to string methods
-std::string toString(SpannerDDLStatement statement);
-std::string toString(CreateTable createTable);
-std::string toString(const google::protobuf::RepeatedPtrField<Column> columns);
-std::string toString(Column column);
-std::string toString(ColumnDataInfo columnDataInfo);
-std::string toString(ColumnDataInfo::ScalarType type, int length, 
-    ColumnDataInfo::LengthType lengthType);
+std::string toString(const SpannerDDLStatement& statement);
+std::string toString(const CreateTable& createTable);
+std::string tableColumnsToString(const RepeatedPtrField<Column>& primary_keys,
+    const RepeatedPtrField<Column>& non_primary_keys);
+std::string toString(const RepeatedPtrField<Column>& columns);
+std::string toString(const Column& column);
+std::string toString(const ColumnDataType& columnDataType);
+std::string toString(const ColumnDataType::ScalarType& type, int length, 
+    const ColumnDataType::LengthType& lengthType);
 std::string isColumnNotNullToString(bool isNotNull);
 std::string columnOptionsToString(bool allowCommitTimestamps);
-std::string toPrimaryKeys(const google::protobuf::RepeatedPtrField<Column>& columns);
-std::string columnToPrimaryKey(Column column);
-std::string toString(Column::Orientation orientation);
+std::string toPrimaryKeys(const RepeatedPtrField<Column>& columns);
+std::string columnToPrimaryKey(const Column& column);
+std::string toString(const Column::Orientation& orientation);

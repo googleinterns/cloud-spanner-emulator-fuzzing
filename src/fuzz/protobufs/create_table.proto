@@ -19,7 +19,7 @@ syntax = "proto2";
 package spanner_ddl;
 
 // represents if a column's data is scalar/an array and its scalar type
-message ColumnDataInfo {
+message ColumnDataType {
     required bool isArray = 1;
     enum ScalarType {
         BOOL = 0;
@@ -46,7 +46,7 @@ message ColumnDataInfo {
 message Column {
     required string columnName = 1;
     
-    required ColumnDataInfo columnDataInfo = 2;
+    required ColumnDataType columnDataType = 2;
     required bool isNotNull = 3;
     required bool allowCommitTimestamp = 4;
 

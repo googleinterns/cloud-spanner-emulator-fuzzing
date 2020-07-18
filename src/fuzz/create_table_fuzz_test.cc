@@ -84,36 +84,25 @@ DEFINE_PROTO_FUZZER(const CreateTable& createTable) {
     // Then we create a simple database.
     google::cloud::spanner::Database database(instance, "test-db");
 
+    std::string createTableDDLStatement = toString(createTable);
+
     auto admin_client =
         DatabaseAdminClient(google::cloud::spanner::MakeDatabaseAdminConnection(
             emulator_connection));
-    auto db_or =
-        admin_client.CreateDatabase(database, {R"sdl(
-          CREATE TABLE Singers (
-              SingerId   INT64 NOT NULL,
-              FirstName  STRING(1024),
-              LastName   STRING(1024),
-              SingerInfo BYTES(MAX)
-          ) PRIMARY KEY (SingerId))sdl",
-                                               R"sdl(
-          CREATE TABLE Albums (
-              SingerId     INT64 NOT NULL,
-              AlbumId      INT64 NOT NULL,
-              AlbumTitle   STRING(MAX)
-          ) PRIMARY KEY (SingerId, AlbumId),
-              INTERLEAVE IN PARENT Singers ON DELETE CASCADE)sdl"})
+    try {
+        auto db_or =
+        admin_client.CreateDatabase(database, {createTableDDLStatement})
             .get();
+    } catch (std::exception const& ex) {
+        LOG(ERROR) << "Failed to create table with the following DDL statement:";
+        LOG(ERROR) << createTableDDLStatement;
+        return 1;
+    }
+    
     if (!db_or) throw std::runtime_error(db_or.status().message());
     LOG(INFO) << "Created database [" << database << "]";
+    LOG(INFO) << "Ran following statement: " << createTableDDLStatement;
 
-    google::cloud::spanner::Client client(
-        google::cloud::spanner::MakeConnection(database, emulator_connection));
-
-    std::string query = toString(createTable);
-
-    client.ExecuteQuery(
-        google::cloud::spanner::SqlStatement(query)
-    );
 
     return 0;
   } catch (std::exception const& ex) {

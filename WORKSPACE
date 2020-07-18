@@ -133,15 +133,12 @@ http_archive(
     sha256 = "35072a210111eb478d4cbc005496b4df026131127e2bf26a369d269b679a91ff",
 )
 
-
 http_archive(
     name = "com_google_protobuf",
     urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.12.3.tar.gz"],
     sha256 = "71030a04aedf9f612d2991c1c552317038c3c5a2b578ac4745267a45e7037c29",
     strip_prefix = "protobuf-3.12.3",
 )
-
-
 
 load("@com_google_zetasql//bazel:zetasql_deps_step_1.bzl", "zetasql_deps_step_1")
 
@@ -177,16 +174,6 @@ google_cloud_cpp_common_deps()
 http_archive(
     name = "libprotobuf_mutator",
     build_file = '@//:third_party/envoy/libprotobuf_mutator.BUILD',
-    strip_prefix = "libprotobuf-mutator-master",
-    urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
-)
-
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-protobuf_deps()
-
-http_archive(
-    name = "libprotobuf_mutator",
-    build_file = '@com_google_zetasql//third_party/envoy/libprotobuf_mutator.BUILD',
     strip_prefix = "libprotobuf-mutator-master",
     urls = ["https://github.com/google/libprotobuf-mutator/archive/master.tar.gz"],
 )

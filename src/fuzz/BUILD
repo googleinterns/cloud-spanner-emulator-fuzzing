@@ -2,25 +2,20 @@
 
 cc_binary(
   name = "simple_fuzz_test",
-  srcs = [
-    "simple_fuzz_test.cc", 
-    "oss_fuzz.h"
-  ],
+  srcs = ["simple_fuzz_test.cc"],
   linkopts = [ "$(LIB_FUZZING_ENGINE)" ],
   deps = [
     "@com_google_cloud_spanner_emulator//frontend/server",
     "@com_github_googleapis_google_cloud_cpp_spanner//google/cloud/spanner:spanner_client",
     "@com_google_absl//absl/strings:strings",
     "@com_google_zetasql//zetasql/base:logging",
+    ":oss_fuzz_init"
   ]
 )
 
 cc_binary(
   name = "create_table_fuzz_test",
-  srcs = [
-    "create_table_fuzz_test.cc",
-    "oss_fuzz.h"
-  ],
+  srcs = ["create_table_fuzz_test.cc"],
   linkopts = [ "$(LIB_FUZZING_ENGINE)" ],
   deps = [
     "@com_google_cloud_spanner_emulator//frontend/server",
@@ -29,7 +24,8 @@ cc_binary(
     "@com_google_zetasql//zetasql/base:logging",
     "@libprotobuf_mutator//:libprotobuf_mutator",
     ":spanner_emulator_ddl_statement_cc_proto",
-    ":spanner_emulator_ddl_statement_to_string"
+    ":spanner_emulator_ddl_statement_to_string",
+    ":oss_fuzz_init"
   ]
 )
 
@@ -41,6 +37,11 @@ cc_test(
         ":spanner_emulator_ddl_statement_to_string",
         "@com_google_googletest//:gtest_main",
     ],
+)
+
+cc_library(
+  name = "oss_fuzz_init",
+  srcs = ["oss_fuzz.h"]
 )
 
 cc_library(
