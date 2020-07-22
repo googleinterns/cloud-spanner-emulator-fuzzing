@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+#ifndef SRC_FUZZ_PROTOBUF_UTILS_SPANNER_EMULATOR_DDL_STATEMENT_PROTO_TO_STRING_H
+#define SRC_FUZZ_PROTOBUF_UTILS_SPANNER_EMULATOR_DDL_STATEMENT_PROTO_TO_STRING_H
 
 #include "src/fuzz/protobufs/create_table.pb.h"
 #include "src/fuzz/protobufs/spanner_ddl.pb.h"
@@ -44,3 +46,5 @@ std::string columnOptionsToString(bool allow_commit_timestamps);
 std::string toPrimaryKeys(const RepeatedPtrField<Column>& columns);
 std::string columnToPrimaryKey(const Column& column);
 std::string toString(const Column::Orientation& orientation);
+
+#endif // SRC_FUZZ_PROTOBUF_UTILS_SPANNER_EMULATOR_DDL_STATEMENT_PROTO_TO_STRING_H
