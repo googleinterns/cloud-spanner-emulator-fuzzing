@@ -33,15 +33,16 @@ cc_test(
     name = "spanner_emulator_ddl_statement_proto_to_string_test",
     srcs = ["spanner_emulator_ddl_statement_proto_to_string_test.cc"],
     deps = [
-        ":spanner_emulator_ddl_statement_cc_proto",
-        ":spanner_emulator_ddl_statement_to_string",
-        "@com_google_googletest//:gtest_main",
+      ":spanner_emulator_ddl_statement_cc_proto",
+      ":spanner_emulator_ddl_statement_to_string",
+      "@com_google_googletest//:gtest_main",
     ],
 )
 
 cc_library(
   name = "oss_fuzz_init",
-  srcs = ["oss_fuzz.h"]
+  srcs = ["oss_fuzz.h"],
+  deps = ["@com_google_zetasql//zetasql/base:logging",]
 )
 
 cc_library(

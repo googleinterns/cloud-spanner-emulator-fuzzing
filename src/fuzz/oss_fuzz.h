@@ -20,6 +20,7 @@
 #define SPANNER_EMULATOR_FUZZING_OSS_FUZZ_H_
 
 #include <filesystem>
+#include "zetasql/base/logging.h"
 
 const int OVERWRITE = 1;
 
@@ -31,11 +32,13 @@ bool DoOssFuzzInit() {
   try {
     originDir = fs::canonical(fs::read_symlink("/proc/self/exe")).parent_path();
   } catch (const std::exception& e) {
+    LOG(ERROR) << "Error - Cannot initialize OSS-Fuzz";
     return false;
   }
   // Timezone data in OSS-Fuzz is in a non-standard location. This allows asbl to know where it resides
   fs::path tzdataDir = originDir / "data/zoneinfo/";
   if (setenv("TZDIR", tzdataDir.c_str(), OVERWRITE)) {
+    LOG(ERROR) << "Error - Timezone data copied incorrectly from OSS-Fuzz build";
     return false;
   }
   return true;

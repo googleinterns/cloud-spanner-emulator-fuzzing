@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-""" Additional bazel imports for zetasql """
-
 licenses(["notice"])  # Apache 2.0
 
 exports_files([
