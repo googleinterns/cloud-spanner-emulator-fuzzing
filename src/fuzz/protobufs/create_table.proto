@@ -48,6 +48,8 @@ message Column {
     
     required ColumnDataType columnDataType = 2;
     required bool isNotNull = 3;
+    //TODO: make timestamps optional and add corresponding changes
+    // to the parsing methods
     required bool allowCommitTimestamp = 4;
 
     // only used for primary keys
@@ -55,6 +57,8 @@ message Column {
         ASC = 0;
         DESC = 1;
     }
+    //TODO: make orientation optional and add corresponding changes
+    // to the parsing methods
     required Orientation orientation = 5 [default = ASC];
 }
 

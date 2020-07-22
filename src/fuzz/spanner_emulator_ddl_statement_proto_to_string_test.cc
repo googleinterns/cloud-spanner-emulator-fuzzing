@@ -32,6 +32,7 @@ using spanner_ddl::CreateTable;
 using spanner_ddl::Column;
 using spanner_ddl::ColumnDataType;
 
+//TODO: add test that creates a table in the emulator using a protobuf
 //TODO: add more to this test as more APIs are added
 TEST(DDLStatementProtoToString, DDLStatementToString) {
     SpannerFuzzingStatements statements;
