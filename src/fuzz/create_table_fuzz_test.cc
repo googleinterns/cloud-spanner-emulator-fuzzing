@@ -96,9 +96,8 @@ DEFINE_PROTO_FUZZER(const CreateTable& createTable) {
         if (!db_or) throw std::runtime_error(db_or.status().message());
 
     } catch (std::exception const& ex) {
-        LOG(ERROR) << "Failed to create table with the following DDL statement:";
-        LOG(ERROR) << createTableDDLStatement;
-        return 1;
+        LOG(INFO) << "Failed to create table with the following DDL statement:";
+        LOG(INFO) << createTableDDLStatement;
     }
     
     LOG(INFO) << "Created database [" << database << "]";
